@@ -1,0 +1,89 @@
+#include<iostream>
+#include<cstdio>
+#include <map>
+#include<algorithm>
+#include <queue>
+#include<cstring>
+using namespace std;
+
+#define CLR(x) memset(x,0,sizeof(x))
+#define FOR(i,a,b) for(int i=(a);i<=(b);i++)
+#define FORD(i,a,b) for(int i=(a);i>=(b);i--)
+#define SZ(x) ((int)(x).size())
+#define ALL(x) (x).begin(),(x).end()
+#define REP(i,n) for(int i=0;i<(n);i++)
+#define REP1(i,a,b) for(int i=(a);i<=(b);i++)
+#define REPL(i,x) for(int i=0;x[i];i++)
+#define PER(i,n) for(int i=(n)-1;i>=0;i--)
+#define PER1(i,a,b) for(int i=(a);i>=(b);i--)
+#define RI(x) scanf("%d",&x)
+#define DRI(x) int x;RI(x)
+#define RII(x,y) scanf("%d%d",&x,&y)
+#define DRII(x,y) int x,y;RII(x,y)
+#define RIII(x,y,z) scanf("%d%d%d",&x,&y,&z)
+#define RIIII(w,x,y,z) scanf("%d%d%d%d",&w,&x,&y,&z)
+#define DRIII(x,y,z) int x,y,z;RIII(x,y,z)
+#define RS(x) scanf("%s",x)
+#define PIN(x) printf("%d\n",x)
+#define PIS(x) printf("%d ",x)
+#define CASET int ___T,cas=1;scanf("%d ",&___T);while(___T--)
+#define CASEN0(n) int cas=1;while(scanf("%d",&n)!=EOF&&n)
+#define CASEN(n) int cas=1;while(scanf("%d",&n)!=EOF)
+#define MP make_pair
+#define PB push_back
+#define MS0(x) memset(x,0,sizeof(x))
+#define MS1(x) memset(x,-1,sizeof(x))
+#define SEP(x) ((x)?'\n':' ')
+#define INF 1<<28
+const int maxn=1010;
+const int maxm=1001000;
+int ans,n;
+struct _p{
+    int buf[30];
+    int vis[15];
+    int pos;
+    int isfull;
+    void clr(){
+        pos=1;
+        isfull=0;
+        CLR(vis);
+        CLR(buf);
+    }
+};
+
+void BFS(){
+
+    queue<_p> q;
+    _p s;
+    s.clr();
+    q.push(s);
+    while(!q.empty()){
+        _p x=q.front();
+        q.pop();
+        if(x.isfull) ans++;
+        FOR(i,1,n){
+            _p tmp=x;
+            if(!tmp.vis[i]&&(tmp.pos+i+1<=2*n&&tmp.buf[tmp.pos+i+1]==0)){
+                tmp.vis[i]=1;
+                tmp.buf[tmp.pos]=tmp.buf[tmp.pos+i+1]=i;
+                tmp.isfull=1;
+                FOR(j,1,n*2){
+                    if(!tmp.buf[j]) {
+                        tmp.pos=j;
+                        tmp.isfull=0;
+                        break;
+                    }
+                }
+                q.push(tmp);
+            }
+        }
+    }
+}
+int main() {
+    cin>>n;
+    ans=0;
+    BFS();
+
+    cout<<ans<<endl;
+    return 0;
+}
